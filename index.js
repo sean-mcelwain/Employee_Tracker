@@ -25,8 +25,6 @@ const runInquirer = () => {
         'View All Employees',
         "View All Employees By Role",
         'View All Employees By Department',
-        'View All Managers',
-        'View All Roles',
         'Add Employee',
         'Add Department',
         'Add Role',
@@ -49,14 +47,6 @@ const runInquirer = () => {
 
         case 'View All Employees By Department':
           viewEmployeesByDepartment();
-          break;
-
-        case 'View All Managers':
-          viewManagers();
-          break;
-
-        case 'View All Roles':
-          viewAllRoles();
           break;
 
         case 'Add Employee':
@@ -123,3 +113,72 @@ function viewEmployeesByDepartment() {
   })
 }
 
+
+let roleArray = [];
+function selectRole() {
+  connection.query("SELECT * FROM role", function(err, res) {
+    if (err) throw err
+    for (let i = 0; i < res.length; i++) {
+      roleArray.push(res[i].title);
+    }
+
+  })
+  return roleArray;
+}
+
+let managersArray = [];
+function selectManager() {
+  connection.query("SELECT first_name, last_name FROM employee WHERE manager_id IS NULL", function(err, res) {
+    if (err) throw err
+    for (let i = 0; i < res.length; i++) {
+      managersArray.push(res[i].first_name);
+    }
+
+  })
+  return managersArray;
+}
+
+function addEmployee() { 
+  inquirer.prompt([
+      {
+        name: "firstname",
+        type: "input",
+        message: "Employee's first name: "
+      },
+      {
+        name: "lastname",
+        type: "input",
+        message: "Employee's last name: "
+      },
+      {
+        name: "role",
+        type: "list",
+        message: "What is their role? ",
+        choices: selectRole()
+      },
+      {
+          name: "choice",
+          type: "rawlist",
+          message: "Whats their managers name?",
+          choices: selectManager()
+      }
+  ]).then(function (val) {
+    let roleId = selectRole().indexOf(val.role) + 1
+    let managerId = selectManager().indexOf(val.choice) + 1
+    let firstName = val.firstname;
+    let lastName = val.lastname;
+    connection.query("INSERT INTO employee SET ?", 
+    {
+        first_name: firstName,
+        last_name: lastName,
+        manager_id: managerId,
+        role_id: roleId
+        
+    }, function(err){
+        if (err) throw err
+        console.table(val)
+        runInquirer()
+    })
+
+})
+}

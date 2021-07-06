@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 
+
 const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
@@ -22,7 +23,7 @@ const runInquirer = () => {
       message: 'What would you like to do?',
       choices: [
         'View All Employees',
-        "View All Departments"
+        "View All Employees By Role",
         'View All Employees By Department',
         'View All Managers',
         'View All Roles',
@@ -42,8 +43,8 @@ const runInquirer = () => {
           viewEmployees();
           break;
         
-        case 'View All Departments':
-          viewDepartments();
+        case 'View All Employees By Role':
+          viewEmployeesByRoles();
           break;
 
         case 'View All Employees By Department':
@@ -94,3 +95,31 @@ const runInquirer = () => {
       }
     });
 };
+
+function viewEmployees() {
+  connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;", 
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    runInquirer()
+  })
+}
+
+function viewEmployeesByRoles() {
+  connection.query("SELECT employee.first_name, employee.last_name, department.name AS Department FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY employee.id;", 
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    runInquirer()
+  })
+}
+
+function viewEmployeesByDepartment() {
+  connection.query("SELECT employee.first_name, employee.last_name, department.name AS Department FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY employee.id;", 
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    runInquirer()
+  })
+}
+

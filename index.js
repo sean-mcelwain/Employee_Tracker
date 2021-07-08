@@ -249,22 +249,24 @@ function addRole() {
             choices: selectRole()
           },
       ]).then(function(val) {
-        let roleId = selectRole().indexOf(val.role) + 1
-        let lastName = val.lastname;
-        connection.query("UPDATE employee SET WHERE ?", 
-        {
-          last_name: lastName
-           
-        }, 
-        {
-          role_id: roleId
-           
-        }, 
-        function(err){
-            if (err) throw err
-            console.table(val)
-            runInquirer();
-        })
+        console.log(val)
+        connection.query(`SELECT employee.id FROM employee WHERE employee.last_name = ${val.lastName} LIMIT 1`, function (err, data){ 
+          if (err) throw err
+          console.table(data)
+        }
+        )
+        // let roleId = selectRole().indexOf(val.role) + 1
+        // let lastName = val.lastname;
+        // connection.query("UPDATE employee SET role_id = ? WHERE last_name =?", [
+        //   roleId,
+        //   lastName, 
+        // ],
+
+        // function(err, data){
+        //     if (err) throw err
+        //     console.table(data)
+        //     runInquirer();
+        // })
   
     });
   });

@@ -11,8 +11,6 @@ URL: https://youtu.be/fQtbEt0wj1o
  2. [ Installation. ](#installation)  
  3. [ Usage tips. ](#usage)   
  4. [ Questions. ](#questions)  
- 5. [ Screenshot. ](#screenshot) 
-
 
 
  <a name='installation'></a>
@@ -28,7 +26,3 @@ GitHub Profile: https://github.com/sean-mcelwain.
 Contact Me: sean.mcelwain.KUBootcamp@gmail.com.  
  
 For any question regarding this project, my preferred method of communication is via email. 
-
-<a name='screenshot'></a>
- ## Screenshot 
-![Screenshot](https://github.com/sean-mcelwain//blob/main/screenshot.jpg)

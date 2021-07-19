@@ -3,6 +3,9 @@
  ## Description 
 This utility allows a user to track employees status within an organization.  This utility is interacted by a user through command-line (node.js based) javascript. 
 
+## Demo Video Link
+URL: https://youtu.be/fQtbEt0wj1o
+
 ## Table of Contents  
  1. [ Description. ](#description)  
  2. [ Installation. ](#installation)  

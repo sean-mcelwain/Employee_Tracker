@@ -226,9 +226,9 @@ function addRole() {
   }
 
   function updateEmployeeRole() {
-    connection.query("SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;", function(err, res) {
+    connection.query("SELECT * FROM employee JOIN role ON employee.role_id = role.id;", function(err, res) {
      if (err) throw err
-     console.log(res)
+     console.table(res)
     inquirer.prompt([
           {
             name: "lastName",
@@ -249,24 +249,15 @@ function addRole() {
             choices: selectRole()
           },
       ]).then(function(val) {
-        console.log(val)
-        connection.query(`SELECT employee.id FROM employee WHERE employee.last_name = ${val.lastName} LIMIT 1`, function (err, data){ 
-          if (err) throw err
-          console.table(data)
-        }
-        )
-        // let roleId = selectRole().indexOf(val.role) + 1
-        // let lastName = val.lastname;
-        // connection.query("UPDATE employee SET role_id = ? WHERE last_name =?", [
-        //   roleId,
-        //   lastName, 
-        // ],
+        let roleId = selectRole().indexOf(val.role) + 1
+        let lastName = val.lastName;
+        connection.query("UPDATE employee SET role_id =" + roleId + " WHERE id = 3", 
 
-        // function(err, data){
-        //     if (err) throw err
-        //     console.table(data)
-        //     runInquirer();
-        // })
+        function(err){
+            if (err) throw err
+            console.table(val)
+            runInquirer();
+        })
   
     });
   });

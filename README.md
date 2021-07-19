@@ -1,4 +1,4 @@
-# Employee_Tracker
+# Employee Tracker - ReadMe
 <a name='description'></a>
  ## Description 
 This utility allows a user to track employees status within an organization.  This utility is interacted by a user through command-line (node.js based) javascript. 
